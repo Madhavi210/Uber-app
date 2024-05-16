@@ -4,6 +4,7 @@ export class apiError extends Error{
         public message: string = "Something went wrong",
         public errors: string[] = [],
         public stack: string = ""
+        
     )
     {
         super(message)

@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 import {UserModel, AdminModel, DriverModel}  from '../models/user.model';
 import { userValidationSchema } from '../interface/yupValidation';
 import { IUser } from '../interface/data.interface';
-
+import bcrypt from 'bcrypt'
 
 export class userServiceClass {
     createUser = async(req:Request, res:Response) =>{
         try {
             await userValidationSchema.validate(req.body);
-            const data = await UserModel.create(req.body);
+            const hashedPassword = await bcrypt.hash(req.body.password, 10) ;
+            const data = await UserModel.create({...req.body, password:hashedPassword});
             return data;
         } catch (error:any) {
             throw new Error('Validation error: ' + error.message);
@@ -129,6 +130,14 @@ export class userServiceClass {
             const data = await UserModel.findByIdAndDelete(id);
             return data;
         } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    deleteAllUser = async(req:Request, res:Response) =>{
+        try {
+            const data = await UserModel.deleteMany();
+        } catch (error: any) {
             throw new Error(error.message);
         }
     }

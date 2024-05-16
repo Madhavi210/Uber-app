@@ -35,6 +35,9 @@ import { IUser, IAdmin, IDriver } from '../interface/data.interface';
             type: Date,
             default: Date.now,
         },
+        token:{
+            type: String
+        },
     },{timestamps: true});
 
 //user schema

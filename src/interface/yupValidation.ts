@@ -32,3 +32,4 @@ export const cabTypeValidationSchema = yup.object().shape({
         vehicle: yup.string(),
     });
 
+    

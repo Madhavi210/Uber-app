@@ -74,6 +74,17 @@ export class userControllerclass {
         }
     }
 
+    deleteAllUser = async(req:Request, res:Response) => {
+        try {
+            const data = await UserServiceObj.deleteAllUser(req, res)
+            const response = new apiResponse(200,data, 'all user deleted successfully');
+            res.status(response.statusCode).json(response);
+        } catch (error:any) {
+            const errResponse = new apiError(500, 'Internal Server Error', [error.message]);
+            res.status(errResponse.statusCode).json(errResponse);
+        }
+    }
+
     updateUserById = async(req:Request, res:Response) =>{
         try {
             const data = await UserServiceObj.updateUserById(req, res)

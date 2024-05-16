@@ -1,14 +1,14 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
 import {CabModel}  from '../models/cab.model';
-import { cabTypeValidationSchema } from '../interface/yupValidation';
+import { cabValidationSchema } from '../interface/yupValidation';
 import { ICab } from '../interface/data.interface';
 
 
 export class cabServiceClass {
     createcab = async(req:Request, res:Response) =>{
         try {
-            await cabTypeValidationSchema.validate(req.body);
+            await cabValidationSchema.validate(req.body);
             const data = await CabModel.create(req.body);
             return data;
         } catch (error:any) {
@@ -70,20 +70,28 @@ export class cabServiceClass {
     updateCabById = async (req:Request, res:Response) => {
         try {
             const {id} = req.params;
-            const {numberPlate, location, pricePerKm} = req.body;
-            if(!numberPlate || !location !|| pricePerKm){
+            console.log(id);
+            
+            const {type, numberPlate, driver,  location, pricePerKm} = req.body;
+            if(!type || !numberPlate || !driver  || !location ||  !pricePerKm){
                 return res.status(400).json({ error: 'All fields are required.' });
             }
-            await cabTypeValidationSchema.validate(req.body);
+            await cabValidationSchema.validate(req.body);
             const data = await CabModel.findByIdAndUpdate(id,
-                {numberPlate, location, pricePerKm},
+                {type, numberPlate, driver, location, pricePerKm},
                 {new: true}
             );
+            console.log(data);
+            
             if (!data) {
                 return res.status(404).json({ error: 'cab not found' });
             }
+            console.log(data);
+            
             return data;
         } catch (error:any) {
+            console.log(error);
+            
             throw new Error(error.message);
         }
     }

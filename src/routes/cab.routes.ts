@@ -1,15 +1,19 @@
 import express, {Request,Response  } from "express";
 import { cabControllerclass } from "../controllers/cab.controller";
+import { authMiddlewareclass } from "../middleware/authenticate.middleware";
 
 
 const router = express.Router();
 const CabControllerObj = new cabControllerclass();
+const AuthMiddlewareclass = new authMiddlewareclass();
 
-router.get('/getUser', CabControllerObj.getAllcab);
-router.get('/:id', CabControllerObj.getCabById);
-router.post('/post', CabControllerObj.createcab);
-router.put('/update/:id', CabControllerObj.updateCabById);
-router.delete('/delete/:id', CabControllerObj.deleteCabById);
+
+router.get('/getcab', AuthMiddlewareclass.isLoggedIn, CabControllerObj.getAllcab);
+router.get('/:id',AuthMiddlewareclass.isLoggedIn, CabControllerObj.getCabById);
+
+router.post('/post', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, CabControllerObj.createcab);
+router.put('/update/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, CabControllerObj.updateCabById);
+router.delete('/delete/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, CabControllerObj.deleteCabById);
 
 
 export default router;

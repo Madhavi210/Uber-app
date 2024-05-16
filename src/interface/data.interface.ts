@@ -11,6 +11,7 @@ import mongoose ,{Schema,Document} from "mongoose";
             age?: number
         }
         createAt: Date;
+        token?: String;
 }
 
 export interface IDriver extends IUser {}

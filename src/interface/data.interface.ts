@@ -1,4 +1,5 @@
 import mongoose ,{Schema,Document} from "mongoose";
+import { PaymentOption } from "../enums/paymentOption.enum";
 
  export interface IUser extends Document{
         userName: string,
@@ -22,11 +23,17 @@ export interface ICab extends Document {
     type: Schema.Types.ObjectId,
     numberPlate: string;
     driver: Schema.Types.ObjectId,
+    userId: Schema.Types.ObjectId,
     location?: {
       type?: string;
       coordinates?: [number, number];
     };
-    pricePerKm: number;
+    distanceInKm: number;
+  pricePerKm: number;
+  totalCharge?: number;
+  pickupFrom: string;
+  dropTo: string;
+  paymentOption: PaymentOption;
 }
 
 // CabType interface

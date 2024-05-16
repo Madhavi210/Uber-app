@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
 import {CabTypeModel}  from '../models/cabType.model';
-import { cabTypeValidationSchema } from '../interface/yupValidation';
+import { cabTypeValidationSchema } from '../validate/yupValidation';
 import { ICabType } from '../interface/data.interface';
 
 

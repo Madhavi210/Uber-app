@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
 import {CabModel}  from '../models/cab.model';
-import { cabValidationSchema } from '../interface/yupValidation';
+import { cabValidationSchema } from '../validate/yupValidation';
 import { ICab } from '../interface/data.interface';
 
 
@@ -9,7 +9,9 @@ export class cabServiceClass {
     createcab = async(req:Request, res:Response) =>{
         try {
             await cabValidationSchema.validate(req.body);
-            const data = await CabModel.create(req.body);
+            const {distanceInKm, pricePerKm} = req.body;
+            const totalCharge = distanceInKm * pricePerKm;
+            const data = await CabModel.create({...req.body, totalCharge});
             return data;
         } catch (error:any) {
             throw new Error('Validation error: ' + error.message);
@@ -26,7 +28,7 @@ export class cabServiceClass {
             if(req.query.search) {
                 const searchValue = req.query.search as string;
                 searchQuery.$or = [
-                    {userName : {$regex:searchValue, $options: 'i'}},
+                    {numberPlate : {$regex:searchValue, $options: 'i'}},
                     
                 ]
             }
@@ -72,13 +74,16 @@ export class cabServiceClass {
             const {id} = req.params;
             console.log(id);
             
-            const {type, numberPlate, driver,  location, pricePerKm} = req.body;
+            const {type, numberPlate, driver, userId, location,distanceInKm,  pricePerKm, pickupFrom, dropTo, paymentOption} = req.body;
             if(!type || !numberPlate || !driver  || !location ||  !pricePerKm){
                 return res.status(400).json({ error: 'All fields are required.' });
             }
             await cabValidationSchema.validate(req.body);
+
+            const {totalCharge, ...updatedData} = req.body;
+
             const data = await CabModel.findByIdAndUpdate(id,
-                {type, numberPlate, driver, location, pricePerKm},
+                updatedData,
                 {new: true}
             );
             console.log(data);

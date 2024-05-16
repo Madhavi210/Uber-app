@@ -14,7 +14,7 @@ import cabTypeRouter from './src/routes/cabType.routes'
 // import svgCaptcha from 'svg-captcha'
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8800;
 
 app.use(express.json());
 app.use(bodyParser.json());

@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
 import {UserModel, AdminModel, DriverModel}  from '../models/user.model';
-import { userValidationSchema } from '../interface/yupValidation';
+import { userValidationSchema } from '../validate/yupValidation';
 import { IUser } from '../interface/data.interface';
 import bcrypt from 'bcrypt'
 
@@ -162,5 +162,6 @@ export class userServiceClass {
             throw new Error(error.message);
         }
     }
+
 
 }

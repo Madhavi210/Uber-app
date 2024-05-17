@@ -20,7 +20,7 @@ export interface IDriver extends IUser {}
 export interface IAdmin extends IUser {}
  
 export interface ICab extends Document {
-    type: Schema.Types.ObjectId,
+  Cabtype: Schema.Types.ObjectId,
     numberPlate: string;
     driver: Schema.Types.ObjectId,
     userId: Schema.Types.ObjectId,
@@ -29,7 +29,6 @@ export interface ICab extends Document {
       coordinates?: [number, number];
     };
     distanceInKm: number;
-  pricePerKm: number;
   totalCharge?: number;
   pickupFrom: string;
   dropTo: string;
@@ -41,4 +40,5 @@ export interface ICabType extends Document {
     name: string;
     description?: string;
     vehicle?: string;
+    pricePerKm: number;
 }

@@ -12,11 +12,16 @@ const cabTypeSchema = new Schema<ICabType>({
       type: String,
       required: true,
     },
-    description: String,
-    vehicle: String,
+    description: {
+      type: String,
+    },
+    vehicle: {
+      type: String,
+    },
+    pricePerKm: {
+      type: Number,
+      required: true,
+    }
 });
 
-
-
 export const CabTypeModel: Model<ICabType> = mongoose.model('CabType', cabTypeSchema);
-

@@ -9,7 +9,7 @@ import { PaymentOption } from "../enums/paymentOption.enum";
 
 // Cab schema
 const cabSchema = new Schema<ICab>({
-    type: {
+  Cabtype: {
       type: Schema.Types.ObjectId,
       ref: 'CabTypeModel',
       required: true,
@@ -38,10 +38,6 @@ const cabSchema = new Schema<ICab>({
       coordinates: [Number],
     },
     distanceInKm:{
-      type: Number,
-      required: true,
-    },
-    pricePerKm: {
       type: Number,
       required: true,
     },

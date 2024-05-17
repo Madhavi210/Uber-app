@@ -1,12 +1,10 @@
 import express, {Request,Response  } from "express";
 import { userControllerclass } from "../controllers/user.controllre";
 import {authMiddlewareclass} from '../middleware/authenticate.middleware';
-import { pdfUtilClass } from "../utils/pdfGenerator.utils";
 
 const router = express.Router();
 const UserControllerObj = new userControllerclass();
 const AuthMiddlewareclass = new authMiddlewareclass();
-const PdfUtilClass = new pdfUtilClass();
 
 
 router.get('/getUser', UserControllerObj.getAllUser);
@@ -26,8 +24,6 @@ router.put('/updateDriver/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewarecl
 router.delete('/delete/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, UserControllerObj.deleteUserById);
 
 router.delete("/deleteAll", UserControllerObj.deleteAllUser);
-
-router.get('/pdf', PdfUtilClass.pdfGenerator)
 
 export default router;
 

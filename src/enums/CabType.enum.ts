@@ -6,8 +6,7 @@ export enum CabType {
     VAN = "Van",
     MINI_VAN = "Mini Van",
     CONVERTIBLE = "Convertible",
-    PICKUP_TRUCK = "Pickup Truck",
-    OTHER = "Other"
+    PICKUP_TRUCK = "Pickup Truck"
 }
 
 // Sedan: ₹10 per kilometer

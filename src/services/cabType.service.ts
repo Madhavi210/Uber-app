@@ -70,13 +70,13 @@ export class cabTypeServiceClass {
     updateCabTypeById = async (req:Request, res:Response) => {
         try {
             const {id} = req.params;
-            const {name ,description, vehicle} = req.body;
-            if(!name){
+            const {name ,description, vehicle, price} = req.body;
+            if(!name || !price){
                 return res.status(400).json({ error: 'All fields are required.' });
             }
             await cabTypeValidationSchema.validate(req.body);
             const data = await CabTypeModel.findByIdAndUpdate(id,
-                {name, description, vehicle},
+                {name, description, vehicle, price},
                 {new: true}
             );
             if (!data) {

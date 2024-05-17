@@ -2,16 +2,30 @@ import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
 import {CabModel}  from '../models/cab.model';
 import { cabValidationSchema } from '../validate/yupValidation';
-import { ICab } from '../interface/data.interface';
+import { ICab, ICabType } from '../interface/data.interface';
+import { CabTypeModel } from '../models/cabType.model';
+import {generatePDF} from '../utils/pdfGenerator.utils'
+import fs from 'fs'
+
 
 
 export class cabServiceClass {
     createcab = async(req:Request, res:Response) =>{
         try {
             await cabValidationSchema.validate(req.body);
-            const {distanceInKm, pricePerKm} = req.body;
-            const totalCharge = distanceInKm * pricePerKm;
-            const data = await CabModel.create({...req.body, totalCharge});
+            //if price from cab model
+            // const {distanceInKm, pricePerKm} = req.body;
+            // const totalCharge = distanceInKm * pricePerKm;
+            // const data = await CabModel.create({...req.body, totalCharge});
+
+            //if price from cab type model
+            const {numberPlate, driver, userId, location, distanceInKm, Cabtype, pickupFrom, dropTo, PaymentOption} = req.body;            
+            const cabType= await CabTypeModel.findOne({_id: Cabtype})
+            if(!cabType){
+                throw new Error("cab type not found")
+            }
+            const totalCharge = parseInt(distanceInKm) * cabType.pricePerKm;
+            const data = await CabModel.create({...req.body, totalCharge })
             return data;
         } catch (error:any) {
             throw new Error('Validation error: ' + error.message);
@@ -99,6 +113,31 @@ export class cabServiceClass {
             
             throw new Error(error.message);
         }
+    }
+
+    getTripDetailPDF = async (req:Request, res:Response) =>{
+     try {
+        
+        const {id} = req.params;
+        const {userId} = req.body;
+        // console.log(id);
+        const data = await CabModel.find({userId:userId})
+        // console.log(data);
+        // console.log(data)
+        
+        if (!data) {
+            return res.status(404).json({message: "No cab to show"})
+            // return doc;
+        }
+        // res.setHeader('Content-Type', 'application/pdf')
+        const doc = await generatePDF(data);
+        // console.log(doc);
+        
+        return doc;
+
+     } catch(error:any){
+          res.status(401).json({message:error.message})
+     }
     }
 
 }

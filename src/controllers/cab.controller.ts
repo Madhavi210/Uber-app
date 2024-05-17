@@ -62,4 +62,25 @@ export class cabControllerclass {
             res.status(errResponse.statusCode).json(errResponse);
         }
     }
+    downloadPDF = async(req:Request, res:Response) =>{
+        try{
+            const doc = await cabServiceObj.getTripDetailPDF(req,res);
+            // console.log(doc); //null
+            
+            if(doc){
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'attachment; filename="trip_details.pdf"');
+                doc.pipe(res);
+                doc.end();
+            } else{
+                const errResponse = new apiError(500, 'Internal Server Error', ["error generating pdf"]);
+                res.status(errResponse.statusCode).json(errResponse);  
+            }
+        } catch(error:any){
+            const errResponse = new apiError(500, 'Internal Server Error', [error.message]);
+            res.status(errResponse.statusCode).json(errResponse);  
+        }
+       }
 }
+
+

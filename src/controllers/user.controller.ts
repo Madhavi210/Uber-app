@@ -10,7 +10,7 @@ export class userControllerclass {
     getAllUser = async(req:Request, res:Response) =>{
         try {
             const data = await UserServiceObj.getAllUser(req, res)
-            const totalRecord = await UserModel.countDocuments();
+            const totalRecord = await UserModel.countDocuments({role:"user"});
             const totalPages = Math.ceil(totalRecord / (parseInt(req.query.limit as string) || 10))
             const response = new apiResponse(200,{totalRecord, totalPages, currentPage: parseInt(req.query.page as string) || 1  ,data}, 'users retrieved successfully');
             res.status(response.statusCode).json(response);
@@ -90,17 +90,6 @@ export class userControllerclass {
         try {
             const data = await UserServiceObj.updateUserById(req, res)
             const response = new apiResponse(200,data, 'user updated by id successfully');
-            res.status(response.statusCode).json(response);
-        } catch (error:any) {
-            const errResponse = new apiError(500, 'Internal Server Error', [error.message]);
-            res.status(errResponse.statusCode).json(errResponse);
-        }
-    }
-
-    deleteUserAndAssociatedCabs = async(req:Request, res:Response) => {
-        try {
-            const data = await UserServiceObj.deleteUserAndAssociatedCabs(req, res)
-            const response = new apiResponse(200,data, 'user deleted with its cab detail successfully');
             res.status(response.statusCode).json(response);
         } catch (error:any) {
             const errResponse = new apiError(500, 'Internal Server Error', [error.message]);

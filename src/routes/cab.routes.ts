@@ -11,8 +11,8 @@ const AuthMiddlewareclass = new authMiddlewareclass();
 router.get('/getcab', AuthMiddlewareclass.isLoggedIn, CabControllerObj.getAllcab);
 router.get('/:id',AuthMiddlewareclass.isLoggedIn, CabControllerObj.getCabById);
 
-router.post('/post', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, CabControllerObj.createcab);
-router.put('/update/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, CabControllerObj.updateCabById);
+router.post('/post', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdminOrUser, CabControllerObj.createcab);
+router.put('/update/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdminOrUser, CabControllerObj.updateCabById);
 router.delete('/delete/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, CabControllerObj.deleteCabById);
 router.get('/downlogPDF/:id', CabControllerObj.downloadPDF )
 

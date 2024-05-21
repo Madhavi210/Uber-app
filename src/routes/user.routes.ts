@@ -21,13 +21,11 @@ router.put('/updateUser/:id',AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass
 router.put('/updateAdmin/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, UserControllerObj.updateUserById);
 router.put('/updateDriver/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdminOrDriver, UserControllerObj.updateUserById);
 
-router.delete('/delete/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, UserControllerObj.deleteUserById);
+router.delete('/delete/:userId', AuthMiddlewareclass.isLoggedIn, UserControllerObj.deleteUserById);  //, AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin,
 
 router.delete("/deleteAll", UserControllerObj.deleteAllUser);
 
 router.post('/refreshToken', AuthMiddlewareclass.refreshToken);
-
-router.delete('/deleteUserCab/:id', UserControllerObj.deleteUserAndAssociatedCabs)
 
 
 export default router;

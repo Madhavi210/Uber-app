@@ -126,11 +126,23 @@ export class userServiceClass {
 
     deleteUserById = async(req:Request, res:Response) =>{
         try {
-            const {id} = req.params;
-            const data = await UserModel.findByIdAndDelete(id);
-            return data;
-        } catch (error:any) {
-            throw new Error(error.message);
+            // Find the user by ID
+            const {userId} = req.params
+            const user = await UserModel.findById(userId);
+            if (!user) {
+                console.log("User not found");
+                return;
+            }
+    
+            await CabModel.deleteMany({ userId });
+    
+            console.log(userId);
+            
+            await UserModel.deleteOne({ _id: userId });
+    
+            console.log("User and associated cabs deleted successfully");
+        } catch (error) {
+            console.error("Error deleting user and associated cabs:", error);
         }
     }
 
@@ -162,58 +174,5 @@ export class userServiceClass {
             throw new Error(error.message);
         }
     }
-
-
-    deleteUserAndAssociatedCabs = async(req:Request, res:Response) => {
-        try {
-                const userId = req.params;
-                const user = await UserModel.findById(userId);
-            if (!user) {
-                console.log("User not found");
-                return;
-            }
-            await CabModel.aggregate([
-                {
-                    $match:{
-                        userId: user._id
-                    }
-                },
-                {
-                    $project:{
-                        _id: 1
-                    }
-                },
-                {
-                    $lookup: {
-                        from: 'cabs',
-                        localField: '_id',
-                        foreignField: '_id',
-                        as: "cabdocs"
-                    }
-                },
-                {
-                    $unwind:'$cabdocs'
-                },
-                {
-                    $replaceRoot:{
-                        newRoot: '$cabdocs'
-                    }
-                },
-                {
-                    $group:{
-                        _id: null,
-                        cabIds: {$push: "$_id"}
-                    }
-                }
-            ]).then(async (result) =>{
-                const cabIds = result[0].cabIds;
-                await CabModel.deleteMany({_id: {$in: cabIds}})
-                console.log("user and its cab data both are deleted succ...");
-            }).catch((err) =>{
-                console.error("error deleting associated cab data:", err)
-            })
-        } catch (error) {
-            console.error("error deletinguser:", error)
-        }
-    }
+    
 }

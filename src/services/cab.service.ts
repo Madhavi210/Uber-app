@@ -1,9 +1,8 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
-import {CabModel}  from '../models/cab.model';
 import { cabValidationSchema } from '../validate/yupValidation';
 import { ICab, ICabType } from '../interface/data.interface';
-import { CabTypeModel } from '../models/cabType.model';
+import { CabTypeModel, CabModel, UserModel } from '../models/index.model';
 import {generatePDF} from '../utils/pdfGenerator.utils'
 import fs from 'fs'
 

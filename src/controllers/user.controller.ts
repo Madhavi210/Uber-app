@@ -1,10 +1,11 @@
-import { apiError } from "../helper/ApiError";
-import { UserModel } from "../models/user.model";
-import { userServiceClass } from "../services/user.service";
 import express,{Request, Response} from 'express';
+import { apiError } from "../helper/ApiError";
+import { UserModel } from "../models/index.model";
+import { userServiceClass } from "../services/index.service";
 import {apiResponse} from '../helper/apiResponse';
 
 const UserServiceObj  = new userServiceClass();
+
 export class userControllerclass {
     getAllUser = async(req:Request, res:Response) =>{
         try {
@@ -95,4 +96,16 @@ export class userControllerclass {
             res.status(errResponse.statusCode).json(errResponse);
         }
     }
+
+    deleteUserAndAssociatedCabs = async(req:Request, res:Response) => {
+        try {
+            const data = await UserServiceObj.deleteUserAndAssociatedCabs(req, res)
+            const response = new apiResponse(200,data, 'user deleted with its cab detail successfully');
+            res.status(response.statusCode).json(response);
+        } catch (error:any) {
+            const errResponse = new apiError(500, 'Internal Server Error', [error.message]);
+            res.status(errResponse.statusCode).json(errResponse);
+        }
+    }
+
 }

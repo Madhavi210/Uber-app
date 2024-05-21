@@ -5,9 +5,7 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser';
 import { connectDb } from './src/db/db.config';
 import { error } from 'console';
-import userRouter from './src/routes/user.routes'
-import cabRouter from './src/routes/cab.routes'
-import cabTypeRouter from './src/routes/cabType.routes'
+import { cabRouter, cabTypeRouter, userRouter } from './src/routes/index.routes';
 // import * as nodemailer from 'nodemailer';
 // import crypto from 'crypto';
 // import otpgenerator from 'otp-generator'

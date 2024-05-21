@@ -1,5 +1,5 @@
 import express, {Request,Response  } from "express";
-import { cabControllerclass } from "../controllers/cab.controller";
+import { cabControllerclass } from "../controllers/index.controller";
 import { authMiddlewareclass } from "../middleware/authenticate.middleware";
 
 

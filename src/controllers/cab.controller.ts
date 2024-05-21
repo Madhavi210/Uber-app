@@ -1,7 +1,7 @@
 import { apiError } from "../helper/ApiError";
-import { CabModel } from "../models/cab.model";
-import { cabServiceClass } from "../services/cab.service";
-import express,{Request, Response} from 'express';
+import { CabModel } from "../models/index.model";
+import { cabServiceClass } from "../services/index.service";
+import {Request, Response} from 'express';
 import {apiResponse} from '../helper/apiResponse';
 
 const cabServiceObj  = new cabServiceClass();

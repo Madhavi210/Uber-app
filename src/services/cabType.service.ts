@@ -1,6 +1,6 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
-import {CabTypeModel}  from '../models/cabType.model';
+import { CabTypeModel, CabModel, UserModel } from '../models/index.model';
 import { cabTypeValidationSchema } from '../validate/yupValidation';
 import { ICabType } from '../interface/data.interface';
 

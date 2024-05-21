@@ -1,6 +1,6 @@
 import { apiError } from "../helper/ApiError";
-import { CabTypeModel } from "../models/cabType.model";
-import { cabTypeServiceClass } from "../services/cabType.service";
+import { CabTypeModel } from "../models/index.model";
+import { cabTypeServiceClass } from "../services/index.service";
 import express,{Request, Response} from 'express';
 import {apiResponse} from '../helper/apiResponse';
 

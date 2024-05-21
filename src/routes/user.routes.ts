@@ -1,5 +1,5 @@
 import express, {Request,Response  } from "express";
-import { userControllerclass } from "../controllers/user.controllre";
+import { userControllerclass } from "../controllers/index.controller";
 import {authMiddlewareclass} from '../middleware/authenticate.middleware';
 
 const router = express.Router();
@@ -24,6 +24,11 @@ router.put('/updateDriver/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewarecl
 router.delete('/delete/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass.isAdmin, UserControllerObj.deleteUserById);
 
 router.delete("/deleteAll", UserControllerObj.deleteAllUser);
+
+router.post('/refreshToken', AuthMiddlewareclass.refreshToken);
+
+router.delete('/deleteUserCab/:id', UserControllerObj.deleteUserAndAssociatedCabs)
+
 
 export default router;
 

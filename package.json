@@ -38,6 +38,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@types/otp-generator": "^4.0.2"
+    "@types/otp-generator": "^4.0.2",
+    "prettier": "3.2.5"
   }
 }

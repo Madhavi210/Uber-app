@@ -1,5 +1,4 @@
-//Users model
-
+//Users model 
 import { profile } from 'console';
 import mongoose, {Schema, Document, Model} from 'mongoose'
 import { setTheUsername } from 'whatwg-url';
@@ -16,7 +15,7 @@ import { IUser, IAdmin, IDriver } from '../interface/data.interface';
             type:String,
             required: true,
             unique: true,
-        },
+        }, 
         password: {
             type:String,
             required: true,
@@ -37,6 +36,9 @@ import { IUser, IAdmin, IDriver } from '../interface/data.interface';
         },
         token:{
             type: String
+        },
+        refreshToken: {
+            type: String,
         },
     },{timestamps: true});
 

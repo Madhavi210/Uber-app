@@ -1,6 +1,6 @@
 import express, {Request, Response} from 'express'
 import mongoose from 'mongoose';
-import {UserModel, AdminModel, DriverModel}  from '../models/user.model';
+import { CabTypeModel, CabModel, UserModel, AdminModel, DriverModel } from '../models/index.model';
 import { userValidationSchema } from '../validate/yupValidation';
 import { IUser } from '../interface/data.interface';
 import bcrypt from 'bcrypt'
@@ -164,4 +164,56 @@ export class userServiceClass {
     }
 
 
+    deleteUserAndAssociatedCabs = async(req:Request, res:Response) => {
+        try {
+                const userId = req.params;
+                const user = await UserModel.findById(userId);
+            if (!user) {
+                console.log("User not found");
+                return;
+            }
+            await CabModel.aggregate([
+                {
+                    $match:{
+                        userId: user._id
+                    }
+                },
+                {
+                    $project:{
+                        _id: 1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'cabs',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: "cabdocs"
+                    }
+                },
+                {
+                    $unwind:'$cabdocs'
+                },
+                {
+                    $replaceRoot:{
+                        newRoot: '$cabdocs'
+                    }
+                },
+                {
+                    $group:{
+                        _id: null,
+                        cabIds: {$push: "$_id"}
+                    }
+                }
+            ]).then(async (result) =>{
+                const cabIds = result[0].cabIds;
+                await CabModel.deleteMany({_id: {$in: cabIds}})
+                console.log("user and its cab data both are deleted succ...");
+            }).catch((err) =>{
+                console.error("error deleting associated cab data:", err)
+            })
+        } catch (error) {
+            console.error("error deletinguser:", error)
+        }
+    }
 }

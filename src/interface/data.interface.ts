@@ -13,6 +13,7 @@ import { PaymentOption } from "../enums/paymentOption.enum";
         }
         createAt: Date;
         token?: String;
+        refreshToken?: String;
 }
 
 export interface IDriver extends IUser {}
@@ -42,3 +43,4 @@ export interface ICabType extends Document {
     vehicle?: string;
     pricePerKm: number;
 }
+

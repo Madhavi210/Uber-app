@@ -6,7 +6,8 @@ import { IUser } from '../interface/data.interface';
 import { apiError } from '../helper/ApiError';
 import { apiResponse } from '../helper/apiResponse';
 import { error } from 'console';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 interface AuthenticatedRequest extends Request {
     user?: IUser; // Assuming IUser is the interface for your user model
@@ -60,13 +61,18 @@ export class authMiddlewareclass {
     
             const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET!, { expiresIn: '1h' });
 
+            const refreshToken = jwt.sign({userId :user._id}, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' })
+
             const updateUser = await UserModel.findByIdAndUpdate(
                 user._id ,
-                {$set: {token}},
+                {$set: {token,refreshToken}},
                 {new: true}
             );
                 
             const response = new apiResponse(200, updateUser, 'user login successfully');
+            
+            res.cookie('refreshToken', refreshToken, { httpOnly: true });
+
             res.header('auth-token', token).status(response.statusCode).json(response);
 
         } catch (error:any) {
@@ -140,6 +146,26 @@ export class authMiddlewareclass {
             res.status(errResponse.statusCode).json(errResponse);
         }
     };
+
+    refreshToken = async (req:Request, res:Response) =>{
+        try {
+            const refreshToken = req.body.refreshToken || req.headers['x-refresh-token']
+            if (!refreshToken) {
+                return res.status(401).json({ message: 'Refresh token is required' });
+            }
+            const decoded:any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!)
+
+            const user = await UserModel.findById(decoded.userId);
+            if(!user){
+                return res.status(404).json({message: 'User not found'})
+            }
+
+            const accesstoken = jwt.sign({id: user._id, role:user.role}, process.env.JWT_SECRET!, {expiresIn:'1h'} )
+            return res.status(404).json({accesstoken})
+        } catch (error) {
+            return res.status(401).json({message: 'Invalid refresh token'})
+        }
+    }
 }
 
 

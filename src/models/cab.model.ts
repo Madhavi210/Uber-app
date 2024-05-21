@@ -62,6 +62,16 @@ const cabSchema = new Schema<ICab>({
     }
   });
 
+  // cabSchema.pre('deleteOne',{ document: true }, async function(this:any, next) {
+  //   try {
+  //       const cabRecord = mongoose.model<ICab>("Cab"); // Get the medicalRecords model
+  //       await cabRecord.deleteMany({ userId: this._id });
+  //       next();
+  //   } catch (error:any) {
+  //       next(error);
+  //   }
+  // })
+
 
 export const CabModel: Model<ICab> = mongoose.model('Cab', cabSchema);
 

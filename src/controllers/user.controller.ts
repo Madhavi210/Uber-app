@@ -35,8 +35,15 @@ export class userControllerclass {
   getAdmin = async (req: Request, res: Response) => {
     try {
       const data = await UserServiceObj.getAdmin(req, res);
+      const totalRecord = await UserModel.countDocuments({ role: "admin" });
+      const totalPages = Math.ceil(
+        totalRecord / (parseInt(req.query.limit as string) || 10),
+      );
       const response = new apiResponse(
         200,
+        // totalRecord,
+        // totalPages,
+        // currentPage: parseInt(req.query.page as string) || 1,
         data,
         "admin retrieved  successfully",
       );
@@ -50,8 +57,15 @@ export class userControllerclass {
   getDriver = async (req: Request, res: Response) => {
     try {
       const data = await UserServiceObj.getDriver(req, res);
+      const totalRecord = await UserModel.countDocuments({ role: "driver" });
+      const totalPages = Math.ceil(
+        totalRecord / (parseInt(req.query.limit as string) || 10),
+      );
       const response = new apiResponse(
         200,
+        // totalRecord,
+        // totalPages,
+        // currentPage: parseInt(req.query.page as string) || 1,
         data,
         "driver retrieved  successfully",
       );

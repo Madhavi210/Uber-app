@@ -93,7 +93,9 @@ export class userServiceClass {
             if(req.query.search) {
                 const searchValue = req.query.search as string;
                 searchQuery.$or = [
-                    {role : 'driver'},
+                  {userName : {$regex:searchValue, $options: 'i'}},
+                  {role : {$regex:searchValue , $options: 'i'}},
+                  {email:{$regex:searchValue , $options: 'i'}},
                 ]
             }
             const filter = {...searchQuery}

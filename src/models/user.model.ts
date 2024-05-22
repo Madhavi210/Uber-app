@@ -4,6 +4,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 import { setTheUsername } from "whatwg-url";
 import * as yup from "yup";
 import { IUser, IAdmin, IDriver } from "../interface/data.interface";
+import { userRole } from "../enums/user.enum";
 
 const userSchema = new Schema<IUser>(
   {
@@ -23,8 +24,8 @@ const userSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["user", "admin", "driver"],
-      default: "user",
+      enum: Object.values(userRole),
+      default: userRole.USER,
     },
     profile: {
       firstName: String,

@@ -9,8 +9,7 @@ if (!url) {
 }
 
 export const connectDb = async () => {
-  mongoose
-    .connect(url)
+  mongoose.connect(url)
     .then(() => {
       console.log("connection successfully");
     })

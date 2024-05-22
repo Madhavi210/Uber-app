@@ -60,3 +60,4 @@ const cabSchema = new Schema<ICab>({
 
 
 export const CabModel: Model<ICab> = mongoose.model("Cab", cabSchema);
+

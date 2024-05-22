@@ -1,19 +1,21 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { PaymentOption } from "../enums/paymentOption.enum";
+import { userRole } from "../enums/user.enum";
+
 
 export interface IUser extends Document {
   userName: string;
   email: string;
-  password: String;
-  role: "user" | "admin" | "driver";
+  password: string;
+  role: userRole;
   profile?: {
     firstName?: string;
     lastName?: string;
     age?: number;
   };
   createAt: Date;
-  token?: String;
-  refreshToken?: String;
+  token?: string;
+  refreshToken?: string;
 }
 
 export interface IDriver extends IUser {}
@@ -43,3 +45,4 @@ export interface ICabType extends Document {
   vehicle?: string;
   pricePerKm: number;
 }
+

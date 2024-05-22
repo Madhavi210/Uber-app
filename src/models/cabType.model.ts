@@ -23,7 +23,6 @@ const cabTypeSchema = new Schema<ICabType>({
   },
 });
 
-export const CabTypeModel: Model<ICabType> = mongoose.model(
-  "CabType",
-  cabTypeSchema,
-);
+export const CabTypeModel: Model<ICabType> = mongoose.model("CabType", cabTypeSchema);
+
+

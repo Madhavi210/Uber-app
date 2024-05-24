@@ -17,3 +17,4 @@ router.delete('/delete/:id', AuthMiddlewareclass.isLoggedIn, AuthMiddlewareclass
 router.get('/downlogPDF/:id', CabControllerObj.downloadPDF )
 
 export default router;
+

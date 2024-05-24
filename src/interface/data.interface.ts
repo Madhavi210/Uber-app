@@ -46,3 +46,4 @@ export interface ICabType extends Document {
   pricePerKm: number;
 }
 
+

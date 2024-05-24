@@ -20,7 +20,7 @@ export class userServiceClass {
     getAllUser = async(req:Request, res:Response) =>{
         try {
             const page = parseInt(req.query.page as string) || 1;
-            const limit = parseInt(req.query.limit as string) || 5;
+            const limit = parseInt(req.query.limit as string) || 10;
             const skip = Math.max(page - 1, 0) * limit;
 
             const searchQuery: any = {}
@@ -53,7 +53,7 @@ export class userServiceClass {
     getAdmin = async(req:Request, res:Response) =>{
         try {
             const page = parseInt(req.query.page as string) || 1;
-            const limit = parseInt(req.query.limit as string) || 5;
+            const limit = parseInt(req.query.limit as string) || 10;
             const skip = Math.max(page - 1, 0) * limit;
 
             const searchQuery: any = {}
@@ -86,7 +86,7 @@ export class userServiceClass {
     getDriver = async(req:Request, res:Response) =>{
         try {
             const page = parseInt(req.query.page as string) || 1;
-            const limit = parseInt(req.query.limit as string) || 5;
+            const limit = parseInt(req.query.limit as string) || 10;
             const skip = Math.max(page - 1, 0) * limit;
 
             const searchQuery: any = {}
@@ -178,3 +178,5 @@ export class userServiceClass {
     }
     
 }
+
+
